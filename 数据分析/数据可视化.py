@@ -71,7 +71,8 @@ def drawplot(sub_data, city, type, day):
     # 为了避免x轴日期刻度标签的重叠，设置x轴刻度自动展现，并且45度倾斜
     fig.autofmt_xdate(rotation=45)
     plt.savefig("plot.jpg")
-    # plt.show()
+    plt.close()
+
 
 def draw_plot(city, type, start, end):
     sub_data, period, city = get_data(city, type, start, end)
@@ -87,35 +88,42 @@ def drawpie(sub_data, city, type, day):
     plt.pie(sub_data, labels=sub_data.index, colors=colors)
     plt.title(photo_title)
     plt.savefig("pie.jpg")
-    plt.show()
+    plt.close()
 
 def draw_pie(city, type, start, end):
-    sub_data, period, city = get_data(city, type, start, end)
-    sub_data[type] = sub_data[type].astype(float)
-    sub_data['质量等级'] = sub_data[type].apply(calculate_aqi, args=(type, ))
-    sub_data['质量等级'] = sub_data['质量等级'].apply(get_level, args=("str",))
+    if type == "AQI指数":
+        sub_data, period, city = get_data(city, "质量等级", start, end)
+    else:
+        sub_data, period, city = get_data(city, type, start, end)
+        sub_data[type] = sub_data[type].astype(float)
+        sub_data['质量等级'] = sub_data[type].apply(calculate_aqi, args=(type, ))
+        sub_data['质量等级'] = sub_data['质量等级'].apply(get_level, args=("str",))
+    # print(sub_data)
     sub_data = sub_data['质量等级'].value_counts()
     drawpie(sub_data, city, type, period)
 
 def drawhist(sub_data, city, period):
     all_sum = 0
     x_data = {}
+    city = cityDict.city_to_pinyin(city)
+    fig = plt.figure(figsize=(10, 6))
     for pollutant in pollutants:
         ans = sub_data[pollutant].sum() / sub_data.shape[0]
         all_sum = all_sum + ans
         x_data[pollutant] = ans
     for pollutant in pollutants:
         plt.bar(pollutant,x_data[pollutant])
-    plt.title("各污染物对空气质量的影响")
+    plt.title(city+"市"+"各污染物对空气质量的影响")
     plt.xlabel("污染物名称")
     plt.ylabel("平均AQI")
     # plt.show()
     plt.savefig("hist.jpg")
+    plt.close()
 
 def draw_hist(city,start,end):
     sub_data, period, city = get_all_data(city, start, end)
     sub_data = to_df(sub_data)
-    print(sub_data)
+    # print(sub_data)
     for pollutant in pollutants:
         sub_data[pollutant] = sub_data[pollutant].astype(float)
         sub_data[pollutant] = sub_data[pollutant].apply(calculate_aqi, args = (pollutant,))
@@ -126,7 +134,7 @@ start = "2014-01-01"
 end = "2015-01-01"
 type = "AQI指数"
 
-# draw_pie(city,type=type,start=start,end=end)
+# draw_pie(city, type, start, end)
 
 
 

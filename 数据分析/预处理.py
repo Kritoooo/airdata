@@ -1,5 +1,10 @@
 import pandas as pd
 import numpy as np
+
+from 数据分析.cityDict import dict1, dict, get_city_list, pinyin_to_city, city_to_pinyin
+from 数据分析.cityProvince import city_to_province
+from 数据库操作.querySql import query_last
+
 # 定义污染物浓度分级标准表
 bp_table = {
     'PM2.5': [0, 35, 75, 115, 150, 250, 350, 500],
@@ -57,3 +62,34 @@ def get_level(aqi, type):
         return redic[type][4]
     else:
         return redic[type][5]
+
+def calc_province(type):
+    vis = {}
+    tot = 0
+    city_list = get_city_list()
+    a = []
+    cnt = []
+    for i in city_list:
+        city_name = city_to_pinyin(i)
+        data = query_last(i,30)
+        if city_name == "阿克苏\n":
+            city_name = "阿克苏"
+        province = city_to_province(city_name)
+        if province not in vis.keys():
+            vis[province] = tot
+            a.append(0)
+            cnt.append(0)
+            tot = tot + 1
+        pos = vis[province]
+        data = query_last(i, 30)
+        cnt[pos] = cnt[pos] + 1
+        # print(data.shape[0])
+        try:
+            a[pos] = a[pos] + data[type].sum() / data.shape[0]
+        except:
+            print("城市数据异常(缺失)")
+
+    for i in range(len(a)):
+        a[i] = a[i] / cnt[i]
+        print(a[i])
+calc_province("PM10")

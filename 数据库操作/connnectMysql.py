@@ -6,8 +6,8 @@ cursor = con.cursor()
 
 insert_sql = "insert into `{}` values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 query_sql = "select 日期,`{}` from {} where 日期 >= \'{}\' and 日期 <= \'{}\'"
-query_all_sql = "select * from {} where 日期 >= \'{}\' and 日期 <= \'{}\'"
-
+query_all_sql = "select * from {} where 日期 >= \'{}\' and 日期 <= \'{}\' order by `{}` {}"
+query_last_sql = "select * from {} order by 日期 desc limit {}"
 def get_results(sql):
     cursor.execute(sql)
     results = cursor.fetchall()

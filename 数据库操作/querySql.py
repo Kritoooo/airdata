@@ -9,10 +9,20 @@ def query(city, start_day, end_day, type):
     except:
         print("查询失败")
 
-def query_all(city, start_day, end_day):
-    sql = query_all_sql.format(city, start_day, end_day)
+def query_all(city, start_day, end_day, type="日期", sort="asc"):
+    sql = query_all_sql.format(city, start_day, end_day, type, sort)
+
     print(sql)
     try:
         return get_results(sql)
     except:
+        print("查询失败")
+
+def query_last(city, last):
+    sql = query_last_sql.format(city, last)
+
+    try:
+        return get_df(sql)
+    except:
+        print(sql)
         print("查询失败")

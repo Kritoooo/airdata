@@ -8,7 +8,7 @@ from 数据分析.cityDict import get_city_list
 from 文件操作.encode_judge import get_encode_info
 from connnectMysql import *
 
-file_path = "..\\part2\{}.csv"
+file_path = "..\\alldata\{}.csv"
 city_list = get_city_list()
 
 def trans_type(item):
