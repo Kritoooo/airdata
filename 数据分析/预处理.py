@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 from 数据分析.cityDict import dict1, dict, get_city_list, pinyin_to_city, city_to_pinyin
-from 数据分析.cityProvince import city_to_province
+from 数据分析.cityProvince import city_to_province, get_city
 from 数据库操作.querySql import query_last
 
 # 定义污染物浓度分级标准表
@@ -63,7 +63,9 @@ def get_level(aqi, type):
     else:
         return redic[type][5]
 
-def calc_province(type):
+last = 1
+
+def calc_province(target, type):
     vis = {}
     tot = 0
     city_list = get_city_list()
@@ -71,7 +73,6 @@ def calc_province(type):
     cnt = []
     for i in city_list:
         city_name = city_to_pinyin(i)
-        data = query_last(i,30)
         if city_name == "阿克苏\n":
             city_name = "阿克苏"
         province = city_to_province(city_name)
@@ -81,15 +82,49 @@ def calc_province(type):
             cnt.append(0)
             tot = tot + 1
         pos = vis[province]
-        data = query_last(i, 30)
-        cnt[pos] = cnt[pos] + 1
-        # print(data.shape[0])
+        data = query_last(i, last)
         try:
-            a[pos] = a[pos] + data[type].sum() / data.shape[0]
+            if target != "AQI指数":
+                data[target] = data[target].apply(calculate_aqi, args=(target,))
+            a[pos] = a[pos] + data[target].sum() / data.shape[0]
+            cnt[pos] = cnt[pos] + 1
         except:
             print("城市数据异常(缺失)")
-
+            continue
+    maxn = 0
+    minn = 1000000
     for i in range(len(a)):
-        a[i] = a[i] / cnt[i]
-        print(a[i])
-calc_province("PM10")
+        a[i] = int(a[i] / cnt[i])
+        maxn = max(maxn, a[i])
+        minn = min(minn, a[i])
+    if type == "相对指标":
+        for i in range(len(a)):
+            a[i] = int(float((a[i] - minn + 1) / (maxn - minn + 1)) * 100)
+    return list(vis.keys()), a
+
+def calc_city(traget, type, province):
+    city_list = get_city_list()
+    a = []
+    vis = []
+    for city in city_list:
+        city_name = city_to_pinyin(city)
+        if province != city_to_province(city_name):
+            continue
+        data = query_last(city, last)
+        if data.shape[0] == 0:
+            continue
+        vis.append(get_city(city_name))
+        a.append(data[traget].sum() / data.shape[0])
+    maxn = 0
+    minn = 1000000
+    for i in range(len(a)):
+        maxn = max(maxn, a[i])
+        minn = min(minn, a[i])
+    if type == "相对指标":
+        for i in range(len(a)):
+            a[i] = int(float((a[i] - minn + 1) / (maxn - minn + 1)) * 100)
+    # print(vis, a)
+    return vis, a
+
+# calc_city("PM2.5", "相对指标", "湖北省")
+# calc_province("PM2.5")

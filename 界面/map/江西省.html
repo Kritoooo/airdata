@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <title>Awesome-pyecharts</title>
                 <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
-            <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/maps/guizhou.js"></script>
+            <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/maps/jiangxi.js"></script>
+            <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/themes/vintage.js"></script>
 
 </head>
 <body >
-    <div id="e960b7d008e74ee7aa1ecacad99a9ad8" class="chart-container" style="width:900px; height:500px; "></div>
+    <div id="0e2f3177661f4a97b934f3c9e6f65977" class="chart-container" style="width:1500px; height:800px; "></div>
     <script>
-        var chart_e960b7d008e74ee7aa1ecacad99a9ad8 = echarts.init(
-            document.getElementById('e960b7d008e74ee7aa1ecacad99a9ad8'), 'white', {renderer: 'canvas'});
-        var option_e960b7d008e74ee7aa1ecacad99a9ad8 = {
+        var chart_0e2f3177661f4a97b934f3c9e6f65977 = echarts.init(
+            document.getElementById('0e2f3177661f4a97b934f3c9e6f65977'), 'vintage', {renderer: 'canvas'});
+        var option_0e2f3177661f4a97b934f3c9e6f65977 = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -24,62 +25,59 @@
     "aria": {
         "enabled": false
     },
-    "color": [
-        "#5470c6",
-        "#91cc75",
-        "#fac858",
-        "#ee6666",
-        "#73c0de",
-        "#3ba272",
-        "#fc8452",
-        "#9a60b4",
-        "#ea7ccc"
-    ],
     "series": [
         {
             "type": "map",
-            "name": "\u8d35\u5dde\u5730\u56fe",
+            "name": "\u7a0b\u5ea6",
             "label": {
                 "show": true,
                 "margin": 8
             },
-            "map": "\u8d35\u5dde",
+            "map": "\u6c5f\u897f",
             "data": [
                 {
-                    "name": "\u8d35\u9633\u5e02",
-                    "value": 1.07
+                    "name": "\u629a\u5dde\u5e02",
+                    "value": 38.0
                 },
                 {
-                    "name": "\u516d\u76d8\u6c34\u5e02",
-                    "value": 3.85
+                    "name": "\u5357\u660c\u5e02",
+                    "value": 29.0
                 },
                 {
-                    "name": "\u9075\u4e49\u5e02",
-                    "value": 6.38
+                    "name": "\u666f\u5fb7\u9547\u5e02",
+                    "value": 28.0
                 },
                 {
-                    "name": "\u5b89\u987a\u5e02",
-                    "value": 8.21
+                    "name": "\u840d\u4e61\u5e02",
+                    "value": 49.0
                 },
                 {
-                    "name": "\u6bd5\u8282\u5e02",
-                    "value": 2.53
+                    "name": "\u65b0\u4f59\u5e02",
+                    "value": 35.0
                 },
                 {
-                    "name": "\u94dc\u4ec1\u5e02",
-                    "value": 4.37
+                    "name": "\u9e70\u6f6d\u5e02",
+                    "value": 40.0
                 },
                 {
-                    "name": "\u9ed4\u897f\u5357",
-                    "value": 9.38
+                    "name": "\u8d63\u5dde\u5e02",
+                    "value": 38.0
                 },
                 {
-                    "name": "\u9ed4\u4e1c\u5357",
-                    "value": 4.29
+                    "name": "\u5b9c\u6625\u5e02",
+                    "value": 28.0
                 },
                 {
-                    "name": "\u9ed4\u5357\u5e03",
-                    "value": 6.1
+                    "name": "\u4e5d\u6c5f\u5e02",
+                    "value": 24.0
+                },
+                {
+                    "name": "\u4e0a\u9976\u5e02",
+                    "value": 45.0
+                },
+                {
+                    "name": "\u5409\u5b89\u5e02",
+                    "value": 37.0
                 }
             ],
             "roam": true,
@@ -99,10 +97,11 @@
     "legend": [
         {
             "data": [
-                "\u8d35\u5dde\u5730\u56fe"
+                "\u7a0b\u5ea6"
             ],
             "selected": {},
             "show": true,
+            "left": "left",
             "padding": 5,
             "itemGap": 10,
             "itemWidth": 25,
@@ -149,9 +148,10 @@
     "title": [
         {
             "show": true,
-            "text": "Map-\u8d35\u5dde\u5730\u56fe",
+            "text": "\u6c5f\u897f\u7701\u7a7a\u6c14\u6c61\u67d3\u5206\u5e03\u56fe",
             "target": "blank",
             "subtarget": "blank",
+            "left": "center",
             "padding": 5,
             "itemGap": 10,
             "textAlign": "auto",
@@ -161,9 +161,13 @@
     ],
     "visualMap": {
         "show": true,
-        "type": "continuous",
+        "type": "piecewise",
         "min": 0,
-        "max": 10,
+        "max": 1000,
+        "text": [
+            "\u6c61\u67d3\u7a0b\u5ea6\u5206\u5e03\u989c\u8272\u533a\u95f4:",
+            ""
+        ],
         "inRange": {
             "color": [
                 "#50a3ba",
@@ -176,14 +180,54 @@
         "splitNumber": 5,
         "hoverLink": true,
         "orient": "vertical",
+        "left": "left",
+        "top": "middle",
         "padding": 5,
         "showLabel": true,
         "itemWidth": 20,
-        "itemHeight": 140,
-        "borderWidth": 0
+        "itemHeight": 14,
+        "borderWidth": 0,
+        "pieces": [
+            {
+                "max": 999,
+                "min": 301,
+                "label": ">300",
+                "color": "#8b0000"
+            },
+            {
+                "max": 300,
+                "min": 201,
+                "label": ">200",
+                "color": "#800080"
+            },
+            {
+                "max": 200,
+                "min": 151,
+                "label": ">150",
+                "color": "#FF0000"
+            },
+            {
+                "max": 150,
+                "min": 101,
+                "label": ">100",
+                "color": "#FFA500"
+            },
+            {
+                "max": 100,
+                "min": 51,
+                "label": ">50",
+                "color": "#FFFF00"
+            },
+            {
+                "max": 50,
+                "min": 1,
+                "label": "<51",
+                "color": "#00FF00"
+            }
+        ]
     }
 };
-        chart_e960b7d008e74ee7aa1ecacad99a9ad8.setOption(option_e960b7d008e74ee7aa1ecacad99a9ad8);
+        chart_0e2f3177661f4a97b934f3c9e6f65977.setOption(option_0e2f3177661f4a97b934f3c9e6f65977);
     </script>
 </body>
 </html>
