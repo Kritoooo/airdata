@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 from 数据分析.cityDict import dict1, dict, get_city_list, pinyin_to_city, city_to_pinyin
-from 数据分析.cityProvince import city_to_province, get_city
+from 数据分析.cityProvince import city_to_province, get_city, get_province
 from 数据库操作.querySql import query_last
 
 # 定义污染物浓度分级标准表
@@ -125,6 +125,49 @@ def calc_city(traget, type, province):
             a[i] = int(float((a[i] - minn + 1) / (maxn - minn + 1)) * 100)
     # print(vis, a)
     return vis, a
+
+def city_rank(type):
+    city_list = get_city_list()
+    vis = {}
+    vis1 = {}
+    if type == "最差排名":
+        type = True
+    else:
+        type = False
+    for city in city_list:
+        try:
+            data = query_last(city, 1)
+            city_name = city_to_pinyin(city)
+            vis[city_name] = []
+            vis[city_name].append(city_name)
+            vis[city_name].append(data['AQI指数'][0])
+
+            vis[city_name].append(data['PM2.5'][0])
+            vis[city_name].append(data['质量等级'][0])
+            # vis[city_name].append(data['AQI指数'][0])
+            province = city_to_province(city_name)
+            province = get_province(province)
+            vis[city_name].append(province)
+            vis1[city_name] = data['AQI指数'][0]
+            # print(vis[city_name])
+        except:
+            print(city_name + "数据缺失")
+            continue
+    result = sorted(vis1.items(), key=lambda x: x[1], reverse= type)
+    a = []
+    # print(result)
+    rank = 0
+    for item in result:
+        rank = rank + 1
+        b = []
+        b.append(rank)
+        for i in vis[item[0]]:
+            b.append(i)
+        a.append(b)
+    print(a)
+    return a
+
+city_rank("1")
 
 # calc_city("PM2.5", "相对指标", "湖北省")
 # calc_province("PM2.5")

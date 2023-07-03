@@ -1,10 +1,9 @@
 from bs4 import BeautifulSoup
 import requests
 import csv
-with open("city_detail_url.txt", 'r') as f:
+with open("temp_url.txt", 'r') as f:
     cur = 0
     url_list = f.readlines()
-    url_list = url_list[8035:]
     last_name = ""
     for url in url_list:
         cur = cur + 1
@@ -29,7 +28,7 @@ with open("city_detail_url.txt", 'r') as f:
         html.encoding = 'GBK'
         soup = BeautifulSoup(html.text, 'lxml')
         date = soup.select("#content > div.api_month_list > table > tr > td")
-        file_path = "E:\pythonProject\暑期实训\\airdata\\" + city_name + ".csv"
+        file_path = "E:\pythonProject\暑期实训\\tmpdata\\" + city_name + ".csv"
         with open(file_path, "a", encoding="utf-8", newline="") as f:
             cnt1 = 0
             csv_writer = csv.writer(f)
